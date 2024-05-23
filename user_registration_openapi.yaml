@@ -65,6 +65,9 @@ paths:
                       userEmail:
                         type: string
                         example: jack.doe12@example.com
+                      isSeller:
+                        type: boolean
+                        example: true
   /user/login:
     post:
       summary: Log in as a user
@@ -103,6 +106,18 @@ paths:
                   data:
                     type: object
                     properties:
+                      name:
+                        type: string
+                        example: user
+                      email: 
+                        type: string
+                        example: user@124@gmail.com
+                      isSeller:
+                        type: boolean
+                        example: true
+                      address: 
+                        type: string
+                        example: Florida Beach
                       accessToken:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamFjayIsImVtYWlsIjoiamFjay5kb2UxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE2Mzk0OTEyLCJleHAiOjE3MTYzOTg1MTJ9.ygNxbq9dq9nQhMaqyq7S_d4eI-KvuFSod0JBwjCxGRI
