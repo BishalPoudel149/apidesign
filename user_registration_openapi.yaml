@@ -1,104 +1,179 @@
-
-"openapi": "3.0.0"
-"info":
-  "title": "User Management API"
-  "description": "APIs for user registration and login"
-  "version": "1.0.0"
-"servers":
-  -
-    "url": "http://harmony-haven"
-"paths":
-  "/user/register":
-    "post":
-      "summary": "Register a new user"
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "userName":
-                  "type": "string"
-                "userEmail":
-                  "type": "string"
-                  "format": "email"
-                "userPassword":
-                  "type": "string"
-                "userPhone":
-                  "type": "integer"
-                "isSeller":
-                  "type": "boolean"
-                "address":
-                  "type": "string"
-              "required":
-                - "userName"
-                - "userEmail"
-                - "userPassword"
-      "responses":
-        "201":
-          "description": "User Registered Successfully"
-          "content":
-            "application/json":
-              "schema":
-                "type": "object"
-                "properties":
-                  "statusCode":
-                    "type": "integer"
-                    "example": 201
-                  "message":
-                    "type": "string"
-                    "example": "User Registered Successfully"
-                  "success":
-                    "type": "boolean"
-                    "example": true
-                  "data":
-                    "type": "object"
-                    "properties":
-                      "userName":
-                        "type": "string"
-                        "example": "samuel"
-                      "userEmail":
-                        "type": "string"
-                        "example": "jack.doe12@example.com"
-  "/user/login":
-    "post":
-      "summary": "Log in as a user"
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "userEmail":
-                  "type": "string"
-                  "format": "email"
-                "userPassword":
-                  "type": "string"
-              "required":
-                - "userEmail"
-                - "userPassword"
-      "responses":
-        "200":
-          "description": "User Logged In Successfully"
-          "content":
-            "application/json":
-              "schema":
-                "type": "object"
-                "properties":
-                  "statusCode":
-                    "type": "integer"
-                    "example": 200
-                  "message":
-                    "type": "string"
-                    "example": "jack.doe1@example.com Logged In Successfully"
-                  "success":
-                    "type": "boolean"
-                    "example": true
-                  "data":
-                    "type": "object"
-                    "properties":
-                      "accessToken":
-                        "type": "string"
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamFjayIsImVtYWlsIjoiamFjay5kb2UxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE2Mzk0OTEyLCJleHAiOjE3MTYzOTg1MTJ9.ygNxbq9dq9nQhMaqyq7S_d4eI-KvuFSod0JBwjCxGRI"
+openapi: 3.0.0
+info:
+  title: User Management API
+  description: APIs for user registration, login, and product management
+  version: 1.0.0
+servers:
+  - url: http://harmony-haven
+components: # Define components here
+  securitySchemes:
+    BearerAuth: # Define your security scheme here
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+paths:
+  /user/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                userEmail:
+                  type: string
+                  format: email
+                userPassword:
+                  type: string
+                userPhone:
+                  type: integer
+                isSeller:
+                  type: boolean
+                address:
+                  type: string
+              required:
+                - userName
+                - userEmail
+                - userPassword
+      responses:
+        '201':
+          description: User Registered Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 201
+                  message:
+                    type: string
+                    example: User Registered Successfully
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      userName:
+                        type: string
+                        example: samuel
+                      userEmail:
+                        type: string
+                        example: jack.doe12@example.com
+  /user/login:
+    post:
+      summary: Log in as a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                  format: email
+                userPassword:
+                  type: string
+              required:
+                - userEmail
+                - userPassword
+      responses:
+        '200':
+          description: User Logged In Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: jack.doe1@example.com Logged In Successfully
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamFjayIsImVtYWlsIjoiamFjay5kb2UxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE2Mzk0OTEyLCJleHAiOjE3MTYzOTg1MTJ9.ygNxbq9dq9nQhMaqyq7S_d4eI-KvuFSod0JBwjCxGRI
+                        
+  /user/createProduct:
+    post:
+      summary: Create a new product
+      security:
+        - BearerAuth: [] 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                productType:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                quantity:
+                  type: integer
+                imgUrl:
+                  type: string
+              required:
+                - name
+                - description
+                - productType
+                - price
+                - quantity
+                - imgUrl
+      responses:
+        '200':
+          description: Product Created Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Product Created Successfully
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      productType:
+                        type: string
+                      price:
+                        type: number
+                        format: float
+                      quantity:
+                        type: integer
+                      imgUrl:
+                        type: string
+                      _id:
+                        type: string
+                      __v:
+                        type: integer
+                        format: int32
